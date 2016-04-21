@@ -24,7 +24,7 @@ import java.util.Scanner;
 		public int determineMapSize(String filename){
 			File file = new File(filename);
 		
-			if (file.exists() && file.isDirectory()){
+			if (file.exists()){
 				try{
 					FileReader fr = new FileReader(file);
 					LineNumberReader lnr = new LineNumberReader(fr);
@@ -57,12 +57,12 @@ import java.util.Scanner;
 		}
 		
 		
-		public void showMap(char[][] mapToShow, int gridSize){
-			for(int i = 0; i<gridSize; i++)
+		public void showMap(){
+			for(int i = 0; i<this.mapSize; i++)
 				{
-				    for(int j = 0; j<gridSize; j++)
+				    for(int j = 0; j<this.mapSize; j++)
 				    {
-				        System.out.print(mapToShow[i][j]);
+				        System.out.print(this.map[i][j]);
 				    }
 				    System.out.println();
 				}
@@ -121,6 +121,22 @@ import java.util.Scanner;
 				    }			
 				}
 			return vec;
+		}
+
+		public Vector2i getStartPoint() {
+			return startPoint;
+		}
+
+		public void setStartPoint(Vector2i startPoint) {
+			this.startPoint = startPoint;
+		}
+
+		public Vector2i getEndpoint() {
+			return endpoint;
+		}
+
+		public void setEndpoint(Vector2i endpoint) {
+			this.endpoint = endpoint;
 		}
 }
 
