@@ -19,20 +19,26 @@ public class PathFinderServiceTest {
 		MapCreator map = new MapCreator(filename);
 		PathFinder path = new PathFinder(map.findStart(), map.findEnd(), map.getMap(), map.getMapSize());
 		//Test out of bounds
-		Assert.assertTrue(path.isOutOfBounds(new Vector2i(49, 49)));
-		Assert.assertFalse(path.isOutOfBounds(new Vector2i(50, 50)));
+		Assert.assertFalse(path.isOutOfBounds(new Vector2i(49, 49)));
+		Assert.assertTrue(path.isOutOfBounds(new Vector2i(50, 50)));
 		//Test walkable
 		Assert.assertTrue(path.isWalkable(new Vector2i(0, 0)));
 		Assert.assertFalse(path.isWalkable(new Vector2i(10, 10)));
 		//getDistance
 		Assert.assertTrue(path.getDistance(new Vector2i(0, 0), new Vector2i(10, 10)) == 14.142135623730951);
 		
-		//Test the isContain method
+		//Test the isContainedInList method
 		List<Node> testList = new ArrayList<Node>();
 		Node testNode = new Node(new Vector2i(10, 10), null, 5, 15);
 		testList.add(testNode);
 		Assert.assertFalse(path.isContainedInList(testList, new Vector2i(1,2)));
 		Assert.assertTrue(path.isContainedInList(testList, new Vector2i(10,10)));
+		
+		//Retrieve path, update map and display
+		testList = path.findPath(map.findStart(), map.findEnd());
+		char[][] newMap = path.updateMap(testList);
+		path.showUpdatedMap(newMap);
+		
 	}
 
 }

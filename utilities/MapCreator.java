@@ -23,8 +23,7 @@ import java.util.Scanner;
 		}
 							
 		public int determineMapSize(String filename){
-			File file = new File(filename);
-		
+			File file = new File(filename);	
 			if (file.exists()){
 				try{
 					FileReader fr = new FileReader(file);
@@ -58,11 +57,10 @@ import java.util.Scanner;
 						}
 					}
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println("Invalid file");
+				System.out.println("Invalid - file does not exist");
 			}
 			return newMap;
 		}

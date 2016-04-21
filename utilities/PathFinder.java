@@ -31,7 +31,6 @@ public class PathFinder {
 			Collections.sort(openList, sorter);
 			current = openList.get(0);
 			if(current.getTile().isEqual(end)){
-				//complete
 				List<Node> path = new ArrayList<Node>();
 				 while (current.getParent()!=null){
 					 path.add(current);
@@ -59,7 +58,7 @@ public class PathFinder {
 				if (!isWalkable(next)){
 					continue;
 				}
-				double gCost = current.getgCost() + getDistance(current.getTile(), next);
+				double gCost = current.getgCost() + determineChoiceCost(next);
 				double hCost = getDistance(next, end);
 				Node childNode = new Node(next, current, gCost, hCost);
 				if (isContainedInList(closedList, next)){
@@ -93,9 +92,9 @@ public class PathFinder {
 	
 	public boolean isOutOfBounds(Vector2i vec){
 		if (vec.getX() < 0 || vec.getY() < 0 || vec.getX() >= gridSize || vec.getY() >= gridSize){
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public boolean isContainedInList(List<Node> list, Vector2i vec){
@@ -107,13 +106,68 @@ public class PathFinder {
 		return false;
 	}
 	
+	//Check if its water~
 	public boolean isWalkable(Vector2i vec){
 		if (map[vec.getX()][vec.getY()] == 126){
 			return false;
 		}
 		return true;
 	}
+	
+	public int determineChoiceCost(Vector2i vec){
+		int cost = 1;
+		//Cost of forest
+		if (map[vec.getX()][vec.getY()] == 42){
+			cost = 2;
+		}
+		//Cost of Mountain
+		if (map[vec.getX()][vec.getY()] == 94){
+			cost = 3;
+		}
+		return cost;
+	}
 
+	public char[][] updateMap(List<Node> list){
+		char[][] newMap = this.map;
+		//Set intial point to #
+		int a = this.start.getX();
+		int b = this.start.getY();
+		for(int i = 0; i<this.gridSize; i++)
+		{
+		    for(int j = 0; j<this.gridSize; j++)
+		    {
+		    	if (i==a && j==b){
+		    		newMap[i][j] = 35;
+		    	}
+		    }
+		}
+		for (Node n : list){
+			int x = n.getTile().getX();
+			int y = n.getTile().getY();
+			for(int i = 0; i<this.gridSize; i++)
+			{
+			    for(int j = 0; j<this.gridSize; j++)
+			    {
+			    	if (i==x && j==y){
+			    		newMap[i][j] = 35;
+			    	}
+			    }
+			}   
+		}
+		return newMap;
+	}
+	
+	public void showUpdatedMap(char[][] updatedMap){
+		for(int i = 0; i<this.gridSize; i++)
+		{
+		    for(int j = 0; j<this.gridSize; j++)
+		    {
+		        System.out.print(updatedMap[i][j]);
+		    }
+		    System.out.println();
+		}
+	}
+	
 	public Vector2i getStart() {
 		return start;
 	}
