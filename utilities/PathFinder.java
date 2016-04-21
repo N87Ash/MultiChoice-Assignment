@@ -12,7 +12,7 @@ public class PathFinder {
 	private char[][] map;
 	private int gridSize;
 	
-	public void Pathfinder(Vector2i start, Vector2i end, char[][] map, int gridSize){
+	public PathFinder(Vector2i start, Vector2i end, char[][] map, int gridSize){
 		this.setStart(start);
 		this.setEnd(end);
 		this.map = map;
@@ -91,23 +91,23 @@ public class PathFinder {
 		}
 	};
 	
-	private boolean isOutOfBounds(Vector2i vec){
-		if (vec.getX() < 0 || vec.getY() < 0 || vec.getX() > gridSize || vec.getY() > gridSize){
+	public boolean isOutOfBounds(Vector2i vec){
+		if (vec.getX() < 0 || vec.getY() < 0 || vec.getX() >= gridSize || vec.getY() >= gridSize){
 			return false;
 		}
 		return true;
 	}
 	
-	private boolean isContainedInList(List<Node> list, Vector2i vec){
+	public boolean isContainedInList(List<Node> list, Vector2i vec){
 		for (Node n : list){
-			if (n.getTile().equals(vec)){
+			if (n.getTile().isEqual(vec)){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	private boolean isWalkable(Vector2i vec){
+	public boolean isWalkable(Vector2i vec){
 		if (map[vec.getX()][vec.getY()] == 126){
 			return false;
 		}

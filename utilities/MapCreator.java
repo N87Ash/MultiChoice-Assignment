@@ -1,6 +1,7 @@
 package utilities;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
@@ -46,13 +47,23 @@ import java.util.Scanner;
 		
 		public char[][] generateMap(String filename){
 			char[][] newMap = new char[mapSize][mapSize];		
-			scanner = new Scanner(filename);
-				for (int row = 0; scanner.hasNextLine() && row < mapSize; row++) {
-					char[] chars = scanner.nextLine().toCharArray();
-					for (int i = 0; i < mapSize && i < chars.length; i++) {
-						newMap[row][i] = chars[i];
+			File file = new File(filename);
+			if (file.exists()){
+				try {
+					scanner = new Scanner(file);
+					for (int row = 0; scanner.hasNextLine() && row < mapSize; row++) {
+						char[] chars = scanner.nextLine().toCharArray();
+						for (int i = 0; i < mapSize && i < chars.length; i++) {
+							newMap[row][i] = chars[i];
+						}
 					}
-				}	
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("Invalid file");
+			}
 			return newMap;
 		}
 		
@@ -69,17 +80,17 @@ import java.util.Scanner;
 		}
 		
 		
-		public boolean isValidMap(char[][] mapToShow, int gridSize){
+		public boolean isValidMap(){
 			int countAt = 0;
 			int countX = 0;
-			for(int i = 0; i<gridSize; i++)
+			for(int i = 0; i<this.mapSize; i++)
 				{
-				    for(int j = 0; j<gridSize; j++)
+				    for(int j = 0; j<this.mapSize; j++)
 				    {
-				        if (mapToShow[i][j] == 64){
+				        if (this.map[i][j] == 64){
 				        	countAt++;
 				        }
-				        if (mapToShow[i][j] == 88){
+				        if (this.map[i][j] == 88){
 				        	countX++;
 				        }
 				    }			
@@ -87,17 +98,18 @@ import java.util.Scanner;
 			if (countX == 1 && countAt == 1){
 				return true;
 			} else {
+				System.out.println("Invalid Map!");
 				return false;
 			}
 		}
 		
-		public Vector2i findStart(char[][] mapToShow, int gridSize){
+		public Vector2i findStart(){
 			Vector2i vec = new Vector2i(0, 0);
-			for(int i = 0; i<gridSize; i++)
+			for(int i = 0; i<this.mapSize; i++)
 				{
-				    for(int j = 0; j<gridSize; j++)
+				    for(int j = 0; j<this.mapSize; j++)
 				    {
-				        if (mapToShow[i][j] == 64){
+				        if (this.map[i][j] == 64){
 				        	vec.setX(i);
 				        	vec.setY(j);
 				        }
@@ -107,13 +119,13 @@ import java.util.Scanner;
 			return vec;
 		}
 
-		public Vector2i findEnd(char[][] mapToShow, int gridSize){
+		public Vector2i findEnd(){
 			Vector2i vec = new Vector2i(0, 0);
-			for(int i = 0; i<gridSize; i++)
+			for(int i = 0; i<this.mapSize; i++)
 				{
-				    for(int j = 0; j<gridSize; j++)
+				    for(int j = 0; j<this.mapSize; j++)
 				    {
-				        if (mapToShow[i][j] == 88){
+				        if (this.map[i][j] == 88){
 				        	vec.setX(i);
 				        	vec.setY(j);
 				        }
@@ -121,23 +133,29 @@ import java.util.Scanner;
 				    }			
 				}
 			return vec;
+		}
+		
+		public int getMapSize() {
+			return mapSize;
 		}
 
 		public Vector2i getStartPoint() {
 			return startPoint;
 		}
 
-		public void setStartPoint(Vector2i startPoint) {
-			this.startPoint = startPoint;
-		}
-
 		public Vector2i getEndpoint() {
 			return endpoint;
 		}
 
-		public void setEndpoint(Vector2i endpoint) {
-			this.endpoint = endpoint;
+		public String getFilename() {
+			return filename;
 		}
+
+		public char[][] getMap() {
+			return map;
+		}
+		
+		
 }
 
 
