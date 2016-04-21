@@ -1,66 +1,127 @@
 package utilities;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
 import java.util.Scanner;
 
-public class MapCreator {
-	
-	static String filename = "Map.txt";
-	public char[][] myArray;
-	private Scanner scanner;
-	
-	public MapCreator(String filename){
+	public class MapCreator {
 		
-		int totalRow = 50;
-		int totalColumn = 50;
-		char[][] myArray = new char[totalRow][totalColumn];
-		File file = new File(filename);
-		try {
-			scanner = new Scanner(file);
-			for (int row = 0; scanner.hasNextLine() && row < totalRow; row++) {
-			    char[] chars = scanner.nextLine().toCharArray();
-			    for (int i = 0; i < totalColumn && i < chars.length; i++) {
-			        myArray[row][i] = chars[i];
-			    }
+		private String filename = "Map.txt";
+		private char[][] map;
+		private int mapSize = 0;
+		private Scanner scanner;
+		private Vector2i startPoint;
+		private Vector2i endpoint;
+		
+		public MapCreator(String filename){
+			this.filename = filename;
+			this.mapSize = determineMapSize(filename);
+			this.map = generateMap(filename);
+		}
+							
+		public int determineMapSize(String filename){
+			File file = new File(filename);
+		
+			if (file.exists() && file.isDirectory()){
+				try{
+					FileReader fr = new FileReader(file);
+					LineNumberReader lnr = new LineNumberReader(fr);
+					int numLines = 0;
+					while (lnr.readLine() != null){
+						numLines++;
+					}
+					lnr.close();
+					mapSize = numLines;
+				} catch(IOException e){
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("File does not exist");
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return mapSize;
 		}
 		
 		
-	}
-	
-	
-	public static void main(String args[]){
+		public char[][] generateMap(String filename){
+			char[][] newMap = new char[mapSize][mapSize];		
+			scanner = new Scanner(filename);
+				for (int row = 0; scanner.hasNextLine() && row < mapSize; row++) {
+					char[] chars = scanner.nextLine().toCharArray();
+					for (int i = 0; i < mapSize && i < chars.length; i++) {
+						newMap[row][i] = chars[i];
+					}
+				}	
+			return newMap;
+		}
 		
-		int totalRow = 50;
-		int totalColumn = 50;
-		char[][] myArray = new char[totalRow][totalColumn];
-		File file = new File(filename);
-		try {
-			Scanner scanner = new Scanner(file);
-			for (int row = 0; scanner.hasNextLine() && row < totalRow; row++) {
-			    char[] chars = scanner.nextLine().toCharArray();
-			    for (int i = 0; i < totalColumn && i < chars.length; i++) {
-			        myArray[row][i] = chars[i];
-			    }
+		
+		public void showMap(char[][] mapToShow, int gridSize){
+			for(int i = 0; i<gridSize; i++)
+				{
+				    for(int j = 0; j<gridSize; j++)
+				    {
+				        System.out.print(mapToShow[i][j]);
+				    }
+				    System.out.println();
+				}
+		}
+		
+		
+		public boolean isValidMap(char[][] mapToShow, int gridSize){
+			int countAt = 0;
+			int countX = 0;
+			for(int i = 0; i<gridSize; i++)
+				{
+				    for(int j = 0; j<gridSize; j++)
+				    {
+				        if (mapToShow[i][j] == 64){
+				        	countAt++;
+				        }
+				        if (mapToShow[i][j] == 88){
+				        	countX++;
+				        }
+				    }			
+				}
+			if (countX == 1 && countAt == 1){
+				return true;
+			} else {
+				return false;
 			}
-			
-			for(int i = 0; i<totalRow; i++)
-			{
-			    for(int j = 0; j<totalColumn; j++)
-			    {
-			        System.out.print(myArray[i][j]);
-			    }
-			    System.out.println();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+		
+		public Vector2i findStart(char[][] mapToShow, int gridSize){
+			Vector2i vec = new Vector2i(0, 0);
+			for(int i = 0; i<gridSize; i++)
+				{
+				    for(int j = 0; j<gridSize; j++)
+				    {
+				        if (mapToShow[i][j] == 64){
+				        	vec.setX(i);
+				        	vec.setY(j);
+				        }
+				       
+				    }			
+				}
+			return vec;
 		}
 
-	} 
-
+		public Vector2i findEnd(char[][] mapToShow, int gridSize){
+			Vector2i vec = new Vector2i(0, 0);
+			for(int i = 0; i<gridSize; i++)
+				{
+				    for(int j = 0; j<gridSize; j++)
+				    {
+				        if (mapToShow[i][j] == 88){
+				        	vec.setX(i);
+				        	vec.setY(j);
+				        }
+				       
+				    }			
+				}
+			return vec;
+		}
 }
+
+

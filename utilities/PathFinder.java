@@ -9,10 +9,14 @@ public class PathFinder {
 
 	private Vector2i start;
 	private Vector2i end;
+	private char[][] map;
+	private int gridSize;
 	
-	public void Pathfinder(Vector2i start, Vector2i end){
-		this.start = start;
-		this.end = end;
+	public void Pathfinder(Vector2i start, Vector2i end, char[][] map, int gridSize){
+		this.setStart(start);
+		this.setEnd(end);
+		this.map = map;
+		this.gridSize = gridSize;
 	}
 	
 	public List<Node> findPath(Vector2i start, Vector2i end){
@@ -88,7 +92,7 @@ public class PathFinder {
 	};
 	
 	private boolean isOutOfBounds(Vector2i vec){
-		if (vec.getX() < 0 || vec.getY() < 0 || vec.getX() > 50 || vec.getY() > 50){
+		if (vec.getX() < 0 || vec.getY() < 0 || vec.getX() > gridSize || vec.getY() > gridSize){
 			return false;
 		}
 		return true;
@@ -100,15 +104,29 @@ public class PathFinder {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
 	private boolean isWalkable(Vector2i vec){
-		char[][] myArray = new char[50][50];
-		if (myArray[vec.getX()][vec.getY()] == 126){
+		if (map[vec.getX()][vec.getY()] == 126){
 			return false;
 		}
 		return true;
+	}
+
+	public Vector2i getStart() {
+		return start;
+	}
+
+	public void setStart(Vector2i start) {
+		this.start = start;
+	}
+
+	public Vector2i getEnd() {
+		return end;
+	}
+
+	public void setEnd(Vector2i end) {
+		this.end = end;
 	}
 }
