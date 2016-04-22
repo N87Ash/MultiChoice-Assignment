@@ -110,11 +110,13 @@ import java.util.Scanner;
 				        if (this.map[i][j] == 64){
 				        	vec.setX(i);
 				        	vec.setY(j);
+				        	return vec;
 				        }
 				       
 				    }			
 				}
-			return vec;
+			System.out.println("No start detetcted.");
+			return null;
 		}
 
 		public Vector2i findEnd(){
@@ -126,11 +128,13 @@ import java.util.Scanner;
 				        if (this.map[i][j] == 88){
 				        	vec.setX(i);
 				        	vec.setY(j);
+				        	return vec;
 				        }
 				       
 				    }			
 				}
-			return vec;
+			System.out.println("No end detetcted.");
+			return null;
 		}
 		
 		public int getMapSize() {

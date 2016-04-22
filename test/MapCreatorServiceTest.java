@@ -11,12 +11,19 @@ public class MapCreatorServiceTest {
 	@Test
 	public void createMapObject() {
 		
+		//Test an invalid file
 		String filename = "BrokenMap.txt";
 		MapCreator map = new MapCreator(filename);
 		//Check the map size 
 		Assert.assertTrue(map.getMapSize() == 50);
 		//I defined valid as having only one @ and only one X
 		Assert.assertTrue(map.isValidMap() == false);
+		Assert.assertTrue(map.findStart() == null);
+		Assert.assertTrue(map.findEnd() == null);
+		
+		System.out.println();
+		System.out.println("----------------------------------");
+		System.out.println();
 		
 		//Map.txt is a 50 by 50 character text file
 		filename = "Map.txt";

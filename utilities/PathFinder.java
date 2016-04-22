@@ -42,35 +42,39 @@ public class PathFinder {
 			}
 			openList.remove(current);
 			closedList.add(current);
-			for (int i=0;i<9;i++){
-				if (i==4){
-					continue;
-				}
-				int x = current.getTile().getX();
-				int y = current.getTile().getY();
-				int xi = (i%3)-1;
-				int yi = (i/3)-1;
-				Vector2i next = new Vector2i(x+xi, y+yi);  
-				//isOutofBounds
-				if (isOutOfBounds(next)){
-					continue;
-				}
-				if (!isWalkable(next)){
-					continue;
-				}
-				double gCost = current.getgCost() + determineChoiceCost(next);
-				double hCost = getDistance(next, end);
-				Node childNode = new Node(next, current, gCost, hCost);
-				if (isContainedInList(closedList, next)){
-					continue;
-				}
-				if (!isContainedInList(openList, next)){
-					openList.add(childNode);
-				}
-			}
+			identifyChildNodes(end, openList, closedList, current);
 		}
 		closedList.clear();
 		return null;
+	}
+
+	private void identifyChildNodes(Vector2i end, List<Node> openList,List<Node> closedList, Node current) {
+		for (int i=0;i<9;i++){
+			if (i==4){
+				continue;
+			}
+			int x = current.getTile().getX();
+			int y = current.getTile().getY();
+			int xi = (i%3)-1;
+			int yi = (i/3)-1;
+			Vector2i next = new Vector2i(x+xi, y+yi);  
+			//isOutofBounds
+			if (isOutOfBounds(next)){
+				continue;
+			}
+			if (!isWalkable(next)){
+				continue;
+			}
+			double gCost = current.getgCost() + determineChoiceCost(next);
+			double hCost = getDistance(next, end);
+			Node childNode = new Node(next, current, gCost, hCost);
+			if (isContainedInList(closedList, next)){
+				continue;
+			}
+			if (!isContainedInList(openList, next)){
+				openList.add(childNode);
+			}
+		}
 	}		
 	
 	public double getDistance(Vector2i tile, Vector2i destination){
