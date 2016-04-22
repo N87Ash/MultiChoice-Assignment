@@ -45,6 +45,7 @@ public class PathFinder {
 			identifyChildNodes(end, openList, closedList, current);
 		}
 		closedList.clear();
+		System.out.println("Possible route could not be reached.");
 		return null;
 	}
 

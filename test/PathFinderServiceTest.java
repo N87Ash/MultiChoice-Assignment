@@ -1,5 +1,6 @@
 package test;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,16 @@ public class PathFinderServiceTest {
 
 	@Test
 	public void testPathFinderAlgorithm() {
+		
+		//Test impossible map
+		String filename2 = "MapWithNoPossibleRoute.txt";
+		MapCreator map2 = new MapCreator(filename2);
+		PathFinder path2 = new PathFinder(map2.findStart(), map2.findEnd(), map2.getMap(), map2.getMapSize());
+		List<Node> test = path2.findPath(map2.findStart(), map2.findEnd());
+		
+		System.out.println();
+		
+		//Test each function with 
 		String filename = "Map.txt";
 		MapCreator map = new MapCreator(filename);
 		PathFinder path = new PathFinder(map.findStart(), map.findEnd(), map.getMap(), map.getMapSize());
@@ -38,6 +49,9 @@ public class PathFinderServiceTest {
 		testList = path.findPath(map.findStart(), map.findEnd());
 		char[][] newMap = path.updateMap(testList);
 		path.showUpdatedMap(newMap);
+		
+		
+		
 		
 	}
 
