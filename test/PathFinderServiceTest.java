@@ -1,6 +1,5 @@
 package test;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,7 @@ public class PathFinderServiceTest {
 		String filename2 = "MapWithNoPossibleRoute.txt";
 		MapCreator map2 = new MapCreator(filename2);
 		PathFinder path2 = new PathFinder(map2.findStart(), map2.findEnd(), map2.getMap(), map2.getMapSize());
+		@SuppressWarnings("unused")
 		List<Node> test = path2.findPath(map2.findStart(), map2.findEnd());
 		
 		System.out.println();
