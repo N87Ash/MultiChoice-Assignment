@@ -6,7 +6,7 @@ Below are the instructions for downloading, compiling and executing the project.
 1. Visit my github repository (https://github.com/N87Ash/MultiChoiceAssignment) and click the "Clone or download" dropdown
 2. Select the Download ZIP option
 3. Once the ZIP file has downloaded to your local directory, open eclipse and select "File" followed by "Import" then select "Existing projects into workspace" from the menu options and click "Next". 
-4. Select the archive file radio button and browse to file in your local directory and then select "Finish"
+4. Select the archive file radio button and browse to the downloaded ZIP file in your local directory and then select "Finish"
 
 Now that we have the project available locally, I'll briefly explain the project structure: 
 
@@ -19,7 +19,7 @@ The test package contains two JUnit test classes. The MapCreatorServiceTest.java
 The PatherFinderServiceTest.java  tests the functionality of PathFinder.java. It first attempts to determine the path for an invalid map, then attempts the same on a working map. The shortest possible routes is outlined with the "#" symbol.
 
 5. Within the test package, right click the MapCreatorServiceTest.java and select "Run As" and then select the "JUnit Test case" option
-6. Likewise, Run the PathFinderServiceTest.java as a JUint Test case
+6. Likewise, Run the PathFinderServiceTest.java as a JUnit Test case
 
 *Shortcoming: The MapCreator.java makes the assumption that maps are perfect squares (i.e. It assumes that the length of the first line in the text file is also equal to the number of lines in the file). 
   
